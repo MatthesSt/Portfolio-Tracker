@@ -24,8 +24,8 @@ export default defineConfig({
         display: "standalone",
         icons: [
           {
-            src: "portfolio.png",
-            sizes: "128x128",
+            src: "portfolio2x.png",
+            sizes: "256x256",
             type: "image/png",
             purpose: "any",
           },
