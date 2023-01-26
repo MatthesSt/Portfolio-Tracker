@@ -4,30 +4,30 @@
       <h2 class="text-center p-3">Einkommen and Ausgaben</h2>
       <div id="incomeContainer" class="mb-3">
         <h4 class="text-center">Einkommen</h4>
-        <form class="row g-1 px-2" @submit.prevent="addIncome()">
-          <div class="col-5">
+        <form class="IEgrid" @submit.prevent="addIncome()">
+          <div>
             <TextInput placeholder="titel" v-model="newIncomeTitle"></TextInput>
           </div>
-          <div class="col-5">
+          <div>
             <TextInput placeholder="wert" v-model="newIncomeValue"></TextInput>
           </div>
-          <div class="col-2 d-flex align-items-end">
+          <div class="d-flex align-items-end">
             <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
           </div>
         </form>
         <div class="mt-3 overflow-auto" style="max-height: 20vh">
-          <div class="row g-1 px-2" v-for="Income of IncomeList">
-            <div class="col-5">
+          <div class="IEgrid" v-for="Income of IncomeList">
+            <div>
               <TextInput placeholder="titel" v-model="Income.title">{{
                 Income.title
               }}</TextInput>
             </div>
-            <div class="col-5">
+            <div>
               <TextInput placeholder="wert" v-model="Income.value">{{
                 Income.title
               }}</TextInput>
             </div>
-            <div class="col-2 d-flex align-items-end">
+            <div class="d-flex align-items-end">
               <Button class="btn btn-danger" @click.stop="deleteIncome(Income)"
                 ><i class="fas fa-trash"></i
               ></Button>
@@ -37,33 +37,33 @@
       </div>
       <div id="expenseContainer">
         <h4 class="text-center">Ausgaben</h4>
-        <form class="row g-1 px-2" @submit.prevent="addExpense()">
-          <div class="col-5">
+        <form class="IEgrid" @submit.prevent="addExpense()">
+          <div>
             <TextInput
               placeholder="titel"
               v-model="newExpenseTitle"
             ></TextInput>
           </div>
-          <div class="col-5">
+          <div>
             <TextInput placeholder="wert" v-model="newExpenseValue"></TextInput>
           </div>
-          <div class="col-2 d-flex align-items-end">
+          <div class="d-flex align-items-end">
             <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
           </div>
         </form>
         <div class="mt-3 overflow-auto" style="max-height: 30vh">
-          <div class="row g-1 px-2" v-for="Expense of ExpenseList">
-            <div class="col-5">
+          <div class="IEgrid" v-for="Expense of ExpenseList">
+            <div>
               <TextInput placeholder="titel" v-model="Expense.title">{{
                 Expense.title
               }}</TextInput>
             </div>
-            <div class="col-5">
+            <div>
               <TextInput placeholder="wert" v-model="Expense.value">{{
                 Expense.title
               }}</TextInput>
             </div>
-            <div class="col-5 d-flex align-items-end">
+            <div class="d-flex align-items-end">
               <Button
                 class="btn btn-danger"
                 @click.stop="deleteExpense(Expense)"
@@ -171,11 +171,16 @@ function deleteExpense(Expense: LSItem) {
 </script>
 <style scoped lang="scss">
 main {
-  width: 100vw;
   height: 100vh;
 }
 footer {
   position: absolute;
   bottom: 0;
+}
+.IEgrid {
+  display: grid;
+  grid-template-columns: 5fr 5fr 1fr;
+  gap: 5px;
+  padding-inline: 10px;
 }
 </style>
