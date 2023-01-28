@@ -40,7 +40,7 @@
         <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
       </div>
     </form>
-    <div class="mt-3 overflow-auto" style="max-height: 30vh">
+    <div class="mt-3 overflow-auto" style="max-height: 20vh">
       <div class="IEgrid" v-for="Expense of ExpenseList">
         <div>
           <TextInput placeholder="titel" v-model="Expense.title">{{ Expense.title }}</TextInput>
@@ -56,9 +56,7 @@
   </div>
   <div class="p-4 h2">
     Gesamt:
-    {{
-      (IncomeList.reduce((a, b) => a + +b.value.replace(',', '.'), 0) - ExpenseList.reduce((a, b) => a + +b.value.replace(',', '.'), 0)).toFixed(2)
-    }}
+    {{ (IncomeList.reduce(listReducer, 0) - ExpenseList.reduce(listReducer, 0)).toFixed(2) }}
   </div>
 </template>
 
@@ -75,6 +73,8 @@ const IncomeList = ref<LSItem[]>([]);
 const newExpenseTitle = ref('');
 const newExpenseValue = ref('');
 const ExpenseList = ref<LSItem[]>([]);
+
+const listReducer = (a: number, b: LSItem) => a + +b.value.replace(',', '.');
 
 watch(
   () => IncomeList.value,
@@ -110,6 +110,8 @@ function addIncome() {
     value: newIncomeValue.value,
   };
   IncomeList.value.push(newIncome);
+  newIncomeTitle.value = '';
+  newIncomeValue.value = '';
 }
 function addExpense() {
   let newExpense = <LSItem>{
@@ -117,6 +119,8 @@ function addExpense() {
     value: newExpenseValue.value,
   };
   ExpenseList.value.push(newExpense);
+  newExpenseTitle.value = '';
+  newExpenseValue.value = '';
 }
 
 function deleteIncome(Income: LSItem) {
