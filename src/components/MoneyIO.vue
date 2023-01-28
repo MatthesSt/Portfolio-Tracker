@@ -40,7 +40,7 @@
         <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
       </div>
     </form>
-    <div class="mt-3 overflow-auto" style="max-height: 20vh">
+    <div class="mt-3 overflow-auto" style="max-height: 22vh">
       <div class="IEgrid" v-for="Expense of ExpenseList">
         <div>
           <TextInput placeholder="titel" v-model="Expense.title">{{ Expense.title }}</TextInput>
