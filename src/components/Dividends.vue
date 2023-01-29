@@ -18,7 +18,7 @@
         }))
       "
     >
-      <template v-for="stock of stockList" #[stringWithoutSpecialCharacters(stock.title)]>
+      <template v-for="(stock, stockIndex) of stockList" #[stringWithoutSpecialCharacters(stock.title)]>
         <div>
           <form class="Divgrid mx-3 mb-3" @submit.prevent="addDividend(stock.title)">
             <div>
@@ -32,15 +32,15 @@
             </div>
           </form>
           <div class="mt-3 overflow-auto" style="max-height: 20vh">
-            <div class="Divgrid mx-3 mb-3" v-for="dividend of stock.dividends">
+            <div class="Divgrid mx-3 mb-3" v-for="(dividend, dividendIndex) in stock.dividends">
               <div>
-                <TextInput placeholder="titel" v-model="dividend.value">{{ dividend.value }}</TextInput>
+                <TextInput placeholder="wert" v-model="dividend.value">{{ dividend.value }}</TextInput>
               </div>
               <div>
                 <TextInput placeholder="datum" v-model="dividend.date">{{ dividend.date }}</TextInput>
               </div>
               <div class="d-flex align-items-end">
-                <Button class="btn btn-danger" @click.stop="deleteDividend(stock, dividend)"><i class="fas fa-trash"></i></Button>
+                <Button class="btn btn-danger" @click.stop="deleteDividend(stockIndex, dividendIndex)"><i class="fas fa-trash"></i></Button>
               </div>
             </div>
           </div>
@@ -113,9 +113,8 @@ function addDividend(stockTitle: string) {
   newDividendValue.value = '';
   newDividendDate.value = '';
 }
-function deleteDividend(stock: Stock, dividend: Stock['dividends'][number]) {
-  let delIndex = stockList.value.find(e => e.title == stock.title)?.dividends.findIndex(e => e.date == dividend.date && e.value == dividend.value);
-  if (delIndex) stock.dividends = stock.dividends.filter((_, i) => i != delIndex);
+function deleteDividend(stockIndex: number, dividendIndex: number) {
+  stockList.value[stockIndex].dividends = stockList.value[stockIndex].dividends.filter((e, i) => i != dividendIndex);
 }
 
 function stringWithoutSpecialCharacters(string: string) {
