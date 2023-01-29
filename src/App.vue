@@ -16,12 +16,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import MoneyIO from './components/MoneyIO.vue';
 import Dividends from './components/Dividends.vue';
 
 const views = ref(['Money I/O', 'Dividends', 'Overview'] as const);
 const routeState = ref<typeof views.value[number]>('Money I/O');
+
+function getLastRoute() {}
+
+watch(
+  () => routeState.value,
+  (newValue, oldValue) => {
+    localStorage.setItem('lastRoute', JSON.stringify(`${newValue},${new Date().toLocaleDateString()},${new Date().toLocaleTimeString()}`));
+  },
+  { deep: true }
+);
 </script>
 <style lang="scss">
 main {
