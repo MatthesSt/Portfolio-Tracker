@@ -25,7 +25,7 @@
               <TextInput placeholder="wert" v-model="newDividendValue"></TextInput>
             </div>
             <div>
-              <DateInput placeholder="wert" v-model="newDividendDate"></DateInput>
+              <DateInput placeholder="datum" v-model="newDividendDate"></DateInput>
             </div>
             <div class="d-flex align-items-end">
               <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
@@ -37,7 +37,7 @@
                 <TextInput placeholder="titel" v-model="dividend.value">{{ dividend.value }}</TextInput>
               </div>
               <div>
-                <TextInput placeholder="wert" v-model="dividend.date">{{ dividend.date }}</TextInput>
+                <TextInput placeholder="datum" v-model="dividend.date">{{ dividend.date }}</TextInput>
               </div>
               <div class="d-flex align-items-end">
                 <Button class="btn btn-danger" @click.stop="deleteDividend(stock, dividend)"><i class="fas fa-trash"></i></Button>
