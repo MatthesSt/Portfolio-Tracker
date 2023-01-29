@@ -4,10 +4,10 @@
     <h4 class="text-center">Einkommen</h4>
     <form class="IEgrid" @submit.prevent="addIncome()">
       <div>
-        <TextInput placeholder="titel" v-model="newIncomeTitle"></TextInput>
+              <TextInput placeholder="titel" v-model="newIncomeTitle" required></TextInput>
       </div>
       <div>
-        <TextInput placeholder="wert" v-model="newIncomeValue"></TextInput>
+              <TextInput placeholder="wert" v-model="newIncomeValue" required></TextInput>
       </div>
       <div class="d-flex align-items-end">
         <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
@@ -31,10 +31,10 @@
     <h4 class="text-center">Ausgaben</h4>
     <form class="IEgrid" @submit.prevent="addExpense()">
       <div>
-        <TextInput placeholder="titel" v-model="newExpenseTitle"></TextInput>
+              <TextInput placeholder="titel" v-model="newExpenseTitle" required></TextInput>
       </div>
       <div>
-        <TextInput placeholder="wert" v-model="newExpenseValue"></TextInput>
+              <TextInput placeholder="wert" v-model="newExpenseValue" required></TextInput>
       </div>
       <div class="d-flex align-items-end">
         <Button class="btn btn-success"><i class="fas fa-save"></i></Button>

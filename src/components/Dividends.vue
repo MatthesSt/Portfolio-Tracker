@@ -2,7 +2,7 @@
   <h2 class="text-center p-3">Dividends</h2>
   <form class="Stgrid mx-3" @submit.prevent="addStock()">
     <div>
-      <TextInput placeholder="titel" v-model="newStockTitle"></TextInput>
+      <TextInput placeholder="titel" v-model="newStockTitle" required></TextInput>
     </div>
     <div class="d-flex align-items-end">
       <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
@@ -22,10 +22,10 @@
         <div>
           <form class="Divgrid mx-3 mb-3" @submit.prevent="addDividend(stock.title)">
             <div>
-              <TextInput placeholder="wert" v-model="newDividendValue"></TextInput>
+              <TextInput placeholder="wert" v-model="newDividendValue" required></TextInput>
             </div>
             <div>
-              <DateInput placeholder="datum" v-model="newDividendDate"></DateInput>
+              <DateInput placeholder="datum" v-model="newDividendDate" required></DateInput>
             </div>
             <div class="d-flex align-items-end">
               <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
