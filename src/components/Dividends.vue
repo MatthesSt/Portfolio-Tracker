@@ -1,66 +1,68 @@
 <template>
-  <h2 class="text-center p-3">Dividends</h2>
-  <form class="Stgrid mx-3" @submit.prevent="addStock()">
-    <div>
-      <TextInput placeholder="titel" v-model="newStockTitle" required></TextInput>
-    </div>
-    <div class="d-flex align-items-end">
-      <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
-    </div>
-  </form>
+  <View title="Dividends">
+    <form class="Stgrid mx-3" @submit.prevent="addStock()">
+      <div>
+        <TextInput placeholder="titel" v-model="newStockTitle" required></TextInput>
+      </div>
+      <div class="d-flex align-items-end">
+        <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
+      </div>
+    </form>
 
-  <div class="m-3 mt-4" style="max-height: 60vh; overflow: auto">
-    <Accordion
-      :items="
-        stockList.map(e => ({
-          title: `${e.title} (${e.dividends.reduce(listReducer, 0)})`,
-          hash: stringWithoutSpecialCharacters(e.title),
-        }))
-      "
-    >
-      <template v-for="(stock, stockIndex) of stockList" #[stringWithoutSpecialCharacters(stock.title)]>
-        <div>
-          <form class="Divgrid mx-3 mb-3" @submit.prevent="addDividend(stock.title)">
-            <div>
-              <TextInput placeholder="wert" v-model="newDividendValue" required></TextInput>
-            </div>
-            <div>
-              <DateInput placeholder="datum" v-model="newDividendDate" required></DateInput>
-            </div>
-            <div class="d-flex align-items-end">
-              <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
-            </div>
-          </form>
-          <div class="mt-3 overflow-auto" style="max-height: 20vh">
-            <div class="Divgrid mx-3 mb-3" v-for="(dividend, dividendIndex) in stock.dividends">
+    <div class="m-3 mt-4" style="max-height: 60vh; overflow: auto">
+      <Accordion
+        :items="
+          stockList.map(e => ({
+            title: `${e.title} (${e.dividends.reduce(listReducer, 0)})`,
+            hash: stringWithoutSpecialCharacters(e.title),
+          }))
+        "
+      >
+        <template v-for="(stock, stockIndex) of stockList" #[stringWithoutSpecialCharacters(stock.title)]>
+          <div>
+            <form class="Divgrid mx-3 mb-3" @submit.prevent="addDividend(stock.title)">
               <div>
-                <TextInput placeholder="wert" v-model="dividend.value">{{ dividend.value }}</TextInput>
+                <TextInput placeholder="wert" v-model="newDividendValue" required></TextInput>
               </div>
               <div>
-                <TextInput placeholder="datum" v-model="dividend.date">{{ dividend.date }}</TextInput>
+                <DateInput placeholder="datum" v-model="newDividendDate" required></DateInput>
               </div>
               <div class="d-flex align-items-end">
-                <Button class="btn btn-danger" @click.stop="deleteDividend(stockIndex, dividendIndex)"><i class="fas fa-trash"></i></Button>
+                <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
+              </div>
+            </form>
+            <div class="mt-3 overflow-auto" style="max-height: 20vh">
+              <div class="Divgrid mx-3 mb-3" v-for="(dividend, dividendIndex) in stock.dividends">
+                <div>
+                  <TextInput placeholder="wert" v-model="dividend.value">{{ dividend.value }}</TextInput>
+                </div>
+                <div>
+                  <TextInput placeholder="datum" v-model="dividend.date">{{ dividend.date }}</TextInput>
+                </div>
+                <div class="d-flex align-items-end">
+                  <Button class="btn btn-danger" @click.stop="deleteDividend(stockIndex, dividendIndex)"><i class="fas fa-trash"></i></Button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </template>
-    </Accordion>
-  </div>
-  <div class="p-4 h2">
-    Gesamt:
-    {{
-      stockList
-        .flatMap(e => e.dividends)
-        .reduce(listReducer, 0)
-        .toFixed(2)
-    }}
-  </div>
+        </template>
+      </Accordion>
+    </div>
+    <div class="p-4 h2">
+      Gesamt:
+      {{
+        stockList
+          .flatMap(e => e.dividends)
+          .reduce(listReducer, 0)
+          .toFixed(2)
+      }}
+    </div>
+  </View>
 </template>
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { TextInput, Button, Accordion, DateInput } from 'custom-mbd-components';
+import View from './View.vue';
 
 const newStockTitle = ref('');
 const stockList = ref<Stock[]>([]);
