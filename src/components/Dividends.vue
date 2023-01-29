@@ -60,7 +60,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import { TextInput, Button, SelectInput, Accordion, DateInput } from 'custom-mbd-components';
+import { TextInput, Button, Accordion, DateInput } from 'custom-mbd-components';
 
 const newStockTitle = ref('');
 const stockList = ref<Stock[]>([]);

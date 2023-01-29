@@ -62,7 +62,7 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import { Button, NumberInput, TextInput } from 'custom-mbd-components';
+import { Button, TextInput } from 'custom-mbd-components';
 
 type LSItem = { title: string; value: string };
 

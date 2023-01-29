@@ -26,18 +26,14 @@ const routeState = ref<typeof views.value[number]>('Money I/O');
 function getLastRoute() {
   let lastRoute = localStorage.getItem('lastRoute');
   if (!lastRoute) return views.value[0];
-  let route = lastRoute?.split(',')[0] as typeof views.value[number];
-  let day = lastRoute?.split(',')[1];
-  let time = lastRoute?.split(',')[2];
-  let currentday = new Date().toLocaleDateString();
-  if (day == currentday) {
-    let currentTime = new Date().toLocaleTimeString();
+  let [route, day, time] = lastRoute?.split(',');
+  if (day == new Date().toLocaleDateString()) {
+    let [currentHour, currentMinute] = new Date().toLocaleTimeString();
     let hour = time.split(':')[0];
-    if (hour == currentTime.split(':')[0] || (+hour == +currentTime.split(':')[0] - 1 && +time.split(':')[1] > +currentTime)) {
-      routeState.value = route as typeof views.value[number];
+    if (hour == currentHour || (+hour == +currentHour - 1 && +currentMinute > +currentMinute)) {
+      routeState.value = route.slice(1) as typeof views.value[number];
     }
   }
-  console.log(lastRoute);
 }
 getLastRoute();
 
