@@ -28,10 +28,10 @@ const totalDividend = computed(() => stocks.value.flatMap(e => e.dividends).redu
 const totalSaving = computed(() => savingList.value.reduce((a, b) => a + +b.value, 0));
 
 function getStats() {
-  stocks.value = JSON.parse(localStorage.getItem('Stocks') || '');
-  incomeList.value = JSON.parse(localStorage.getItem('Income') || '');
-  expenseList.value = JSON.parse(localStorage.getItem('Expense') || '');
-  savingList.value = JSON.parse(localStorage.getItem('Saving') || '');
+  stocks.value = JSON.parse(localStorage.getItem('Stocks') || '[]');
+  incomeList.value = JSON.parse(localStorage.getItem('Income') || '[]');
+  expenseList.value = JSON.parse(localStorage.getItem('Expense') || '[]');
+  savingList.value = JSON.parse(localStorage.getItem('Saving') || '[]');
 }
 getStats();
 </script>
