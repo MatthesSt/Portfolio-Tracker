@@ -13,7 +13,7 @@
       <Accordion
         :items="
           stockList.map(e => ({
-            title: `${e.title} (${e.dividends.reduce(listReducer, 0)})`,
+            title: `${e.title} (${e.dividends.reduce(listReducer, 0).toFixed(2)})`,
             hash: stringWithoutSpecialCharacters(e.title),
           }))
         "
