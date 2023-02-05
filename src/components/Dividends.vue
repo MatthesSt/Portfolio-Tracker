@@ -48,7 +48,7 @@
         </template>
       </Accordion>
     </div>
-    <div class="p-4 h2">
+    <div class="px-4 h2">
       Gesamt:
       {{
         stockList

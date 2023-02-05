@@ -1,6 +1,6 @@
 <template>
   <main class="bg-dark text-light">
-    <section v-if="routeState == 'Money I/O'">
+    <section v-if="routeState == 'I/O'">
       <MoneyIO></MoneyIO>
     </section>
     <section v-if="routeState == 'Dividends'"><Dividends></Dividends></section>
@@ -22,8 +22,8 @@ import Dividends from './components/Dividends.vue';
 import Overview from './components/Overview.vue';
 import Saving from './components/Saving.vue';
 
-const views = ref(['Money I/O', 'Dividends', 'Saving', 'Overview'] as const);
-const routeState = ref<typeof views.value[number]>('Money I/O');
+const views = ref(['I/O', 'Dividends', 'Saving', 'Overview'] as const);
+const routeState = ref<typeof views.value[number]>('I/O');
 
 function getLastRoute() {
   let lastRoute = localStorage.getItem('lastRoute');

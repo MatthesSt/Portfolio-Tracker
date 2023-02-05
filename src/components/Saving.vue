@@ -1,7 +1,7 @@
 <template>
   <View title="Sparen">
     <div>
-      <form class="Fgrid" @submit.prevent="addSaving()">
+      <form class="Fgrid px-3" @submit.prevent="addSaving()">
         <div>
           <TextInput placeholder="titel" v-model="newSavingTitle" required></TextInput>
         </div>
@@ -15,8 +15,8 @@
           <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
         </div>
       </form>
-      <div class="mt-3 overflow-auto" style="max-height: 40vh">
-        <div class="Sgrid" v-for="saving of savingList">
+      <div class="my-3 overflow-auto" style="max-height: 40vh">
+        <div class="Sgrid px-3" v-for="saving of savingList">
           <div>
             <TextInput placeholder="titel" v-model="saving.title">{{ saving.title }}</TextInput>
           </div>
@@ -28,7 +28,7 @@
           </div>
         </div>
       </div>
-      <div class="p-4 h2">
+      <div class="px-4 h2">
         Gesamt:
         {{ savingList.reduce((a, b) => a + +b.value, 0).toFixed(2) }}
       </div>
@@ -77,12 +77,10 @@ function deleteSaving(saving: Saving) {
   display: grid;
   grid-template-columns: 4fr 4fr 2fr 1fr;
   gap: 5px;
-  padding-inline: 10px;
 }
 .Sgrid {
   display: grid;
   grid-template-columns: 5fr 5fr 1fr;
   gap: 5px;
-  padding-inline: 10px;
 }
 </style>
