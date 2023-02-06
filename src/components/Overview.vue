@@ -9,11 +9,17 @@
       <div>{{ totalSaving }}€/m</div>
     </div>
     <div class="px-3">Dividendenwachstum pro Monat:</div>
-    <div class="p-3">
-      <div class="grid" v-for="(entry,index) in (monthGrowthList as [string,number][]) ">
+    <div class="px-3 py-2">
+      <div class="monthlyDivGrid pb-2">
+        <div>Monat</div>
+        <div>Dividende</div>
+        <div>Wachstum</div>
+      </div>
+      <div class="monthlyDivGrid" v-for="(entry,index) in (monthGrowthList as [string,number][]) ">
         <div>
           {{ new Date(+entry[0].substring(0, 4), +entry[0].substring(4) - 1, 1).toLocaleString('default', { year: '2-digit', month: 'short' }) }}:
         </div>
+        <div>{{ monthDividendList[index][1].reduce((a, b) => a + b, 0) }}</div>
         <div v-if="index">{{ Math.round(+entry[1] * 10000) / 100 || 0 }}%</div>
       </div>
     </div>
@@ -35,6 +41,7 @@ const incomeList = ref<LSItem[]>([]);
 const expenseList = ref<LSItem[]>([]);
 const savingList = ref<{ title: string; value: string; rate: string; id: string }[]>([]);
 const monthGrowthList = ref<(string | number | null)[][]>([]);
+const monthDividendList = computed(() => Object.entries(getMonthObject(stocks.value.flatMap(e => e.dividends))));
 
 const totalDividend = computed(() => stocks.value.flatMap(e => e.dividends).reduce((a, b) => a + +b.value, 0));
 const lastMonthDividend = computed(() =>
@@ -64,7 +71,7 @@ function reduceDividendMonthsToGrowth(dividendArray: { [key: string]: number[] }
   let dividendMonths = [...Object.entries(dividendArray).map(e => [e[0], e[1].reduce((a, b) => a + +b, 0)])];
   return dividendMonths.map((e, i) => [e[0], i > 0 ? +e[1] / +dividendMonths[i - 1][1] - 1 : null]);
 }
-function getMonthGrowth(dividends: Stock['dividends']) {
+function getMonthObject(dividends: Stock['dividends']) {
   if (!dividends.length) [];
   let object: { [key: string]: number[] } = {};
   console.log(dividends);
@@ -74,13 +81,17 @@ function getMonthGrowth(dividends: Stock['dividends']) {
     object[dividendDate] = current;
     console.log(object[dividendDate]);
   }
-  return reduceDividendMonthsToGrowth(object);
+  return object;
 }
-monthGrowthList.value = getMonthGrowth(stocks.value.flatMap(e => e.dividends));
+monthGrowthList.value = reduceDividendMonthsToGrowth(getMonthObject(stocks.value.flatMap(e => e.dividends)));
 </script>
 <style lang="scss">
 .grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
+}
+.monthlyDivGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
 }
 </style>
