@@ -2,9 +2,9 @@
   <View title="Overview">
     <div class="p-3 grid">
       <div>Gesamte Dividende:</div>
-      <div>{{ totalDividend }}€</div>
+      <div>{{ totalDividend.toFixed(2) }}€</div>
       <div>Dividende Letzen Monat:</div>
-      <div>{{ lastMonthDividend }}€</div>
+      <div>{{ lastMonthDividend.toFixed(2) }}€</div>
       <div>Sparrate:</div>
       <div>{{ totalSaving }}€/m</div>
     </div>
