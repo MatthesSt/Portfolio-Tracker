@@ -19,7 +19,7 @@
         <div>
           {{ new Date(+entry[0].substring(0, 4), +entry[0].substring(4) - 1, 1).toLocaleString('default', { year: '2-digit', month: 'short' }) }}:
         </div>
-        <div>{{ monthDividendList[index][1].reduce((a, b) => a + b, 0) }}</div>
+        <div>{{ monthDividendList[index][1].reduce((a, b) => a + b, 0).toFixed(2) }}</div>
         <div v-if="index">{{ Math.round(+entry[1] * 10000) / 100 || 0 }}%</div>
       </div>
     </div>
