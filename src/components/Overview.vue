@@ -24,9 +24,11 @@
         </div>
         <div style="border-bottom: 1px solid white" v-if="index && !((+entry[0].substring(4) - 1) % 3)">
           {{
-            Math.round(
-              (getHalfYearDividendBracket(index) / (getHalfYearDividendBracket(index - 3) || getHalfYearDividendBracket(index)) - 1) * 10000
-            ) / 100
+            (
+              Math.round(
+                (getHalfYearDividendBracket(index) / (getHalfYearDividendBracket(index - 3) || getHalfYearDividendBracket(index)) - 1) * 10000
+              ) / 100
+            ).toFixed(2)
           }}%
         </div>
         <div>
