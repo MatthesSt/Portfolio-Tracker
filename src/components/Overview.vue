@@ -20,7 +20,7 @@
           Q{{ Math.floor((+entry[0].substring(4) - 1) / 3) || 4 }}
         </div>
         <div style="border-bottom: 1px solid white" v-if="index && !((+entry[0].substring(4) - 1) % 3)">
-          {{ getHalfYearDividendBracket(index) }}
+          {{ getHalfYearDividendBracket(index).toFixed(2) }}
         </div>
         <div style="border-bottom: 1px solid white" v-if="index && !((+entry[0].substring(4) - 1) % 3)">
           {{
