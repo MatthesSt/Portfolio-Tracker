@@ -9,13 +9,26 @@
       <div>{{ totalSaving }}€/m</div>
     </div>
     <div class="px-3">Dividendenwachstum pro Monat:</div>
-    <div class="px-3 py-2">
+    <div class="px-3 py-2 overflow-auto" style="max-height: 60vh">
       <div class="monthlyDivGrid pb-2">
         <div>Monat</div>
         <div>Dividende</div>
         <div>Wachstum</div>
       </div>
       <div class="monthlyDivGrid" v-for="(entry,index) in (monthGrowthList as [string,number][]) ">
+        <div style="border-bottom: 1px solid white" v-if="index && !((+entry[0].substring(4) - 1) % 3)">
+          Q{{ Math.floor((+entry[0].substring(4) - 1) / 3) || 4 }}
+        </div>
+        <div style="border-bottom: 1px solid white" v-if="index && !((+entry[0].substring(4) - 1) % 3)">
+          {{ getHalfYearDividendBracket(index) }}
+        </div>
+        <div style="border-bottom: 1px solid white" v-if="index && !((+entry[0].substring(4) - 1) % 3)">
+          {{
+            Math.round(
+              (getHalfYearDividendBracket(index) / (getHalfYearDividendBracket(index - 3) || getHalfYearDividendBracket(index)) - 1) * 10000
+            ) / 100
+          }}%
+        </div>
         <div>
           {{ new Date(+entry[0].substring(0, 4), +entry[0].substring(4) - 1, 1).toLocaleString('default', { year: '2-digit', month: 'short' }) }}:
         </div>
@@ -41,8 +54,9 @@ const incomeList = ref<LSItem[]>([]);
 const expenseList = ref<LSItem[]>([]);
 const savingList = ref<{ title: string; value: string; rate: string; id: string }[]>([]);
 const monthGrowthList = ref<(string | number | null)[][]>([]);
-const monthDividendList = computed(() => Object.entries(getMonthObject(stocks.value.flatMap(e => e.dividends))));
 
+const monthDividendList = computed(() => Object.entries(getMonthObject(stocks.value.flatMap(e => e.dividends))));
+const totalSaving = computed(() => savingList.value.reduce((a, b) => a + +b.value, 0));
 const totalDividend = computed(() => stocks.value.flatMap(e => e.dividends).reduce((a, b) => a + +b.value, 0));
 const lastMonthDividend = computed(() =>
   stocks.value
@@ -50,22 +64,18 @@ const lastMonthDividend = computed(() =>
     .filter(e => +e.date.split('-')[1] == new Date().getMonth())
     .reduce((a, b) => a + +b.value, 0)
 );
-const AvgMonthGrowth = computed(() =>
-  stocks.value
-    .flatMap(e => e.dividends)
-    .filter(e => +e.date.split('-')[1] == (new Date().getMonth() - 1 + 12) % 12)
-    .reduce((a, b) => a + +b.value, 0)
-);
 
-const totalSaving = computed(() => savingList.value.reduce((a, b) => a + +b.value, 0));
-
-function getStats() {
+function init() {
   stocks.value = JSON.parse(localStorage.getItem('Stocks') || '[]');
   incomeList.value = JSON.parse(localStorage.getItem('Income') || '[]');
   expenseList.value = JSON.parse(localStorage.getItem('Expense') || '[]');
   savingList.value = JSON.parse(localStorage.getItem('Saving') || '[]');
 }
-getStats();
+init();
+
+function getHalfYearDividendBracket(index: number) {
+  return monthDividendList.value.reduce((a, b, i) => a + (i < index && i >= index - 3 ? +b[1].reduce((a, b) => a + +b)! : 0), 0);
+}
 
 function reduceDividendMonthsToGrowth(dividendArray: { [key: string]: number[] }) {
   let dividendMonths = [...Object.entries(dividendArray).map(e => [e[0], e[1].reduce((a, b) => a + +b, 0)])];
