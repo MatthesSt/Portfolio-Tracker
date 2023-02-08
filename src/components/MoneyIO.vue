@@ -30,7 +30,7 @@
                 <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
               </div>
             </form>
-            <div class="mt-3 overflow-auto" style="max-height: 50vh">
+            <div class="mt-3 overflow-auto" style="max-height: 45vh">
               <div class="IEgrid" v-for="Income of IncomeList">
                 <div>
                   <TextInput placeholder="titel" v-model="Income.title">{{ Income.title }}</TextInput>
@@ -58,7 +58,7 @@
                 <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
               </div>
             </form>
-            <div class="mt-3 overflow-auto" style="max-height: 50vh">
+            <div class="mt-3 overflow-auto" style="max-height: 45vh">
               <div class="IEgrid" v-for="Expense of ExpenseList">
                 <div>
                   <TextInput placeholder="titel" v-model="Expense.title">{{ Expense.title }}</TextInput>
@@ -95,7 +95,7 @@
               <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
             </div>
           </form>
-          <div class="mt-3 overflow-auto py-2" style="max-height: 50vh">
+          <div class="mt-3 overflow-auto py-2" style="max-height: 45vh">
             <div class="IEgrid" v-for="Payin of PayinList">
               <div>
                 <DateInput placeholder="datum" v-model="Payin.date">{{ Payin.date }}</DateInput>
