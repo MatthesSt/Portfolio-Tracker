@@ -22,8 +22,7 @@ import Dividends from './components/Dividends.vue';
 import Overview from './components/Overview.vue';
 import Saving from './components/Saving.vue';
 
-const views = ref(['I/O', 'Dividends', 'Saving', 'Overview'] as const);
-const routeState = ref<typeof views.value[number]>('I/O');
+import { views, routeState } from './state';
 
 function getLastRoute() {
   let lastRoute = localStorage.getItem('lastRoute');
@@ -38,14 +37,6 @@ function getLastRoute() {
   }
 }
 getLastRoute();
-
-watch(
-  () => routeState.value,
-  (newValue, oldValue) => {
-    localStorage.setItem('lastRoute', JSON.stringify(`${newValue},${new Date().toLocaleDateString()},${new Date().toLocaleTimeString()}`));
-  },
-  { deep: true }
-);
 </script>
 <style lang="scss">
 main {
