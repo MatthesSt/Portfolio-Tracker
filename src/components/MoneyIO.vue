@@ -4,15 +4,15 @@
       <Accordion
         :items="[
           {
-            title: `Einkommen (${IncomeList.reduce(listReducer, 0)})`,
+            title: `Einkommen (${IncomeList.reduce(listReducer, 0).toFixed(2)})`,
             hash: 'Einkommen',
           },
           {
-            title: `Ausgaben (${ExpenseList.reduce(listReducer, 0)})`,
+            title: `Ausgaben (${ExpenseList.reduce(listReducer, 0).toFixed(2)})`,
             hash: 'Ausgaben',
           },
           {
-            title: `Einzahlungen (${PayinList.reduce(listReducer, 0)})`,
+            title: `Einzahlungen (${PayinList.reduce(listReducer, 0).toFixed(2)})`,
             hash: 'Einzahlungen',
           },
         ]"
