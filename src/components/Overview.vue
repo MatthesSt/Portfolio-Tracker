@@ -63,7 +63,7 @@ const totalDividend = computed(() => stocks.value.flatMap(e => e.dividends).redu
 const lastMonthDividend = computed(() =>
   stocks.value
     .flatMap(e => e.dividends)
-    .filter(e => +e.date.split('-')[1] == new Date().getMonth())
+    .filter(e => +e.date.split('-')[1] == new Date().getMonth() && +e.date.split('-')[0] == new Date().getFullYear())
     .reduce((a, b) => a + +b.value, 0)
 );
 
@@ -86,12 +86,10 @@ function reduceDividendMonthsToGrowth(dividendArray: { [key: string]: number[] }
 function getMonthObject(dividends: Stock['dividends']) {
   if (!dividends.length) [];
   let object: { [key: string]: number[] } = {};
-  console.log(dividends);
   for (let dividend of dividends) {
     let dividendDate = dividend.date.split('-')[0] + dividend.date.split('-')[1];
     let current = [...(object[dividendDate] || []), +dividend.value];
     object[dividendDate] = current;
-    console.log(object[dividendDate]);
   }
   return object;
 }

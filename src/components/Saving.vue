@@ -68,7 +68,6 @@ function addSaving() {
   });
 }
 function deleteSaving(saving: Saving) {
-  console.log(saving.id);
   savingList.value = savingList.value.filter(e => e.id != saving.value);
 }
 </script>
