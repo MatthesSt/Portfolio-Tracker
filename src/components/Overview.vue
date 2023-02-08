@@ -1,6 +1,8 @@
 <template>
   <View title="Overview">
     <div class="p-3 grid">
+      <div>Zuletzt Aktualisiert:</div>
+      <div>{{ lastUpdated }}</div>
       <div>Gesamte Dividende:</div>
       <div>{{ totalDividend.toFixed(2) }}€</div>
       <div>Dividende Letzen Monat:</div>
@@ -56,6 +58,7 @@ const incomeList = ref<LSItem[]>([]);
 const expenseList = ref<LSItem[]>([]);
 const savingList = ref<{ title: string; value: string; rate: string; id: string }[]>([]);
 const monthGrowthList = ref<(string | number | null)[][]>([]);
+const lastUpdated = ref('');
 
 const monthDividendList = computed(() => Object.entries(getMonthObject(stocks.value.flatMap(e => e.dividends))));
 const totalSaving = computed(() => savingList.value.reduce((a, b) => a + +b.value, 0));
@@ -72,6 +75,7 @@ function init() {
   incomeList.value = JSON.parse(localStorage.getItem('Income') || '[]');
   expenseList.value = JSON.parse(localStorage.getItem('Expense') || '[]');
   savingList.value = JSON.parse(localStorage.getItem('Saving') || '[]');
+  lastUpdated.value = JSON.parse(localStorage.getItem('lastUpdated') || '');
 }
 init();
 

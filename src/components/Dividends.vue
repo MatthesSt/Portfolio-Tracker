@@ -63,6 +63,7 @@
 import { ref, watch } from 'vue';
 import { TextInput, Button, Accordion, DateInput } from 'custom-mbd-components';
 import View from './View.vue';
+import { getCurrentDateTime } from '../utils';
 
 const newStockTitle = ref('');
 const stockList = ref<Stock[]>([]);
@@ -81,6 +82,7 @@ watch(
   () => stockList.value,
   (newValue, oldValue) => {
     localStorage.setItem('Stocks', JSON.stringify(newValue));
+    localStorage.setItem('lastUpdated', JSON.stringify(getCurrentDateTime()));
   },
   { deep: true }
 );

@@ -39,6 +39,7 @@
 import { ref, watch } from 'vue';
 import View from './View.vue';
 import { TextInput, Button, SelectInput } from 'custom-mbd-components';
+import { getCurrentDateTime } from '../utils';
 
 type Saving = { title: string; value: string; rate: 'm' | 'q' | 'h' | 'y'; id: string };
 
@@ -51,6 +52,7 @@ watch(
   () => savingList.value,
   (newValue, oldValue) => {
     localStorage.setItem('Saving', JSON.stringify(newValue));
+    localStorage.setItem('lastUpdated', JSON.stringify(getCurrentDateTime()));
   },
   { deep: true }
 );

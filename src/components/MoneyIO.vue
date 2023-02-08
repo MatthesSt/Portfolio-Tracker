@@ -123,6 +123,7 @@
 import { ref, watch } from 'vue';
 import { Button, TextInput, Accordion, DateInput } from 'custom-mbd-components';
 import View from './View.vue';
+import { getCurrentDateTime } from '../utils';
 
 type LSItem = { title: string; value: string } | { date: string; value: string };
 
@@ -146,6 +147,7 @@ watch(
   () => IncomeList.value,
   (newValue, oldValue) => {
     localStorage.setItem('Income', JSON.stringify(newValue));
+    localStorage.setItem('lastUpdated', JSON.stringify(getCurrentDateTime()));
   },
   { deep: true }
 );
@@ -153,6 +155,7 @@ watch(
   () => ExpenseList.value,
   (newValue, oldValue) => {
     localStorage.setItem('Expense', JSON.stringify(newValue));
+    localStorage.setItem('lastUpdated', JSON.stringify(getCurrentDateTime()));
   },
   { deep: true }
 );
@@ -160,6 +163,7 @@ watch(
   () => PayinList.value,
   (newValue, oldValue) => {
     localStorage.setItem('Payin', JSON.stringify(newValue));
+    localStorage.setItem('lastUpdated', JSON.stringify(getCurrentDateTime()));
   },
   { deep: true }
 );
