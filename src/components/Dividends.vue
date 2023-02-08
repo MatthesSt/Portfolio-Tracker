@@ -32,7 +32,7 @@
               </div>
             </form>
             <div class="mt-3 overflow-auto" style="max-height: 20vh">
-              <div class="Divgrid mx-3 mb-3" v-for="(dividend, dividendIndex) in stock.dividends.reverse()">
+              <div class="Divgrid mx-3 mb-3" v-for="(dividend, dividendIndex) in stock.dividends">
                 <div>
                   <TextInput placeholder="wert" v-model="dividend.value">{{ dividend.value }}</TextInput>
                 </div>
