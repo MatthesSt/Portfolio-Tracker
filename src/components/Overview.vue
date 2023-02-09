@@ -45,39 +45,26 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import View from './View.vue';
+import { savingList, stockList } from '../state';
 
 interface Stock {
   title: string;
   amount: string;
   dividends: { value: string; date: string }[];
 }
-type LSItem = { title: string; value: string };
 
-const stocks = ref<Stock[]>([]);
-const incomeList = ref<LSItem[]>([]);
-const expenseList = ref<LSItem[]>([]);
-const savingList = ref<{ title: string; value: string; rate: string; id: string }[]>([]);
 const monthGrowthList = ref<(string | number | null)[][]>([]);
 const lastUpdated = ref('');
 
-const monthDividendList = computed(() => Object.entries(getMonthObject(stocks.value.flatMap(e => e.dividends))));
+const monthDividendList = computed(() => Object.entries(getMonthObject(stockList.value.flatMap(e => e.dividends))));
 const totalSaving = computed(() => savingList.value.reduce((a, b) => a + +b.value, 0));
-const totalDividend = computed(() => stocks.value.flatMap(e => e.dividends).reduce((a, b) => a + +b.value, 0));
+const totalDividend = computed(() => stockList.value.flatMap(e => e.dividends).reduce((a, b) => a + +b.value, 0));
 const lastMonthDividend = computed(() =>
-  stocks.value
+  stockList.value
     .flatMap(e => e.dividends)
     .filter(e => +e.date.split('-')[1] == new Date().getMonth() && +e.date.split('-')[0] == new Date().getFullYear())
     .reduce((a, b) => a + +b.value, 0)
 );
-
-function init() {
-  stocks.value = JSON.parse(localStorage.getItem('Stocks') || '[]');
-  incomeList.value = JSON.parse(localStorage.getItem('Income') || '[]');
-  expenseList.value = JSON.parse(localStorage.getItem('Expense') || '[]');
-  savingList.value = JSON.parse(localStorage.getItem('Saving') || '[]');
-  lastUpdated.value = JSON.parse(localStorage.getItem('lastUpdated') || '');
-}
-init();
 
 function getHalfYearDividendBracket(index: number) {
   return monthDividendList.value.reduce((a, b, i) => a + (i < index && i >= index - 3 ? +b[1].reduce((a, b) => a + +b)! : 0), 0);
@@ -97,7 +84,7 @@ function getMonthObject(dividends: Stock['dividends']) {
   }
   return object;
 }
-monthGrowthList.value = reduceDividendMonthsToGrowth(getMonthObject(stocks.value.flatMap(e => e.dividends)));
+monthGrowthList.value = reduceDividendMonthsToGrowth(getMonthObject(stockList.value.flatMap(e => e.dividends)));
 </script>
 <style lang="scss">
 .grid {

@@ -4,15 +4,15 @@
       <Accordion
         :items="[
           {
-            title: `Einkommen (${IncomeList.reduce(listReducer, 0).toFixed(2)})`,
+            title: `Einkommen (${incomeList.reduce(listReducer, 0).toFixed(2)})`,
             hash: 'Einkommen',
           },
           {
-            title: `Ausgaben (${ExpenseList.reduce(listReducer, 0).toFixed(2)})`,
+            title: `Ausgaben (${expenseList.reduce(listReducer, 0).toFixed(2)})`,
             hash: 'Ausgaben',
           },
           {
-            title: `Einzahlungen (${PayinList.reduce(listReducer, 0).toFixed(2)})`,
+            title: `Einzahlungen (${payinList.reduce((a, b) => a + +b.value.replace(',', '.'), 0).toFixed(2)})`,
             hash: 'Einzahlungen',
           },
         ]"
@@ -31,7 +31,7 @@
               </div>
             </form>
             <div class="mt-3 overflow-auto" style="max-height: 40vh">
-              <div class="IEgrid" v-for="Income of IncomeList">
+              <div class="IEgrid" v-for="Income of incomeList">
                 <div>
                   <TextInput placeholder="titel" v-model="Income.title">{{ Income.title }}</TextInput>
                 </div>
@@ -59,7 +59,7 @@
               </div>
             </form>
             <div class="mt-3 overflow-auto" style="max-height: 40vh">
-              <div class="IEgrid" v-for="Expense of ExpenseList">
+              <div class="IEgrid" v-for="Expense of expenseList">
                 <div>
                   <TextInput placeholder="titel" v-model="Expense.title">{{ Expense.title }}</TextInput>
                 </div>
@@ -96,7 +96,7 @@
             </div>
           </form>
           <div class="mt-3 overflow-auto py-2" style="max-height: 40vh">
-            <div class="IEgrid" v-for="Payin of PayinList">
+            <div class="IEgrid" v-for="Payin of payinList">
               <div>
                 <DateInput placeholder="datum" v-model="Payin.date">{{ Payin.date }}</DateInput>
               </div>
@@ -114,83 +114,43 @@
 
     <div class="px-4 h2">
       Gesamt:
-      {{ (IncomeList.reduce(listReducer, 0) - ExpenseList.reduce(listReducer, 0) - savingList.reduce(listReducer, 0)).toFixed(2) }}
+      {{ (incomeList.reduce(listReducer, 0) - expenseList.reduce(listReducer, 0) - savingList.reduce(listReducer, 0)).toFixed(2) }}
     </div>
   </View>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { Button, TextInput, Accordion, DateInput } from 'custom-mbd-components';
 import View from './View.vue';
-import { getCurrentDateTime } from '../utils';
-
-type LSItem = { title: string; value: string } | { date: string; value: string };
+import { expenseList, incomeList, payinList, savingList } from '../state';
 
 const newIncomeTitle = ref('');
 const newIncomeValue = ref('');
-const IncomeList = ref<LSItem[]>([]);
 
 const newExpenseTitle = ref('');
 const newExpenseValue = ref('');
-const ExpenseList = ref<LSItem[]>([]);
 
 const newPayinDate = ref('');
 const newPayinValue = ref('');
-const PayinList = ref<{ date: string; value: string }[]>([]);
 
-const savingList = ref<{ title: string; value: string; rate: string; id: string }[]>([]);
-
-const listReducer = (a: number, b: LSItem) => a + +b.value.replace(',', '.');
-
-watch(
-  () => IncomeList.value,
-  (newValue, oldValue) => {
-    localStorage.setItem('Income', JSON.stringify(newValue));
-    localStorage.setItem('lastUpdated', JSON.stringify(getCurrentDateTime()));
-  },
-  { deep: true }
-);
-watch(
-  () => ExpenseList.value,
-  (newValue, oldValue) => {
-    localStorage.setItem('Expense', JSON.stringify(newValue));
-    localStorage.setItem('lastUpdated', JSON.stringify(getCurrentDateTime()));
-  },
-  { deep: true }
-);
-watch(
-  () => PayinList.value,
-  (newValue, oldValue) => {
-    localStorage.setItem('Payin', JSON.stringify(newValue));
-    localStorage.setItem('lastUpdated', JSON.stringify(getCurrentDateTime()));
-  },
-  { deep: true }
-);
-
-function init() {
-  IncomeList.value = JSON.parse(localStorage.getItem('Income') || '[]');
-  ExpenseList.value = JSON.parse(localStorage.getItem('Expense') || '[]');
-  savingList.value = JSON.parse(localStorage.getItem('Saving') || '[]');
-  PayinList.value = JSON.parse(localStorage.getItem('Payin') || '[]');
-}
-init();
+const listReducer = (a: number, b: { title: string; value: string }) => a + +b.value.replace(',', '.');
 
 function addIncome() {
-  let newIncome = <LSItem>{
+  let newIncome = {
     title: newIncomeTitle.value,
     value: newIncomeValue.value,
   };
-  IncomeList.value.push(newIncome);
+  incomeList.value.push(newIncome);
   newIncomeTitle.value = '';
   newIncomeValue.value = '';
 }
 function addExpense() {
-  let newExpense = <LSItem>{
+  let newExpense = {
     title: newExpenseTitle.value,
     value: newExpenseValue.value,
   };
-  ExpenseList.value.push(newExpense);
+  expenseList.value.push(newExpense);
   newExpenseTitle.value = '';
   newExpenseValue.value = '';
 }
@@ -199,19 +159,19 @@ function addPayin() {
     date: newPayinDate.value,
     value: newPayinValue.value,
   };
-  PayinList.value.push(newPayin);
+  payinList.value.push(newPayin);
   newPayinDate.value = '';
   newPayinValue.value = '';
 }
 
-function deleteIncome(Income: LSItem) {
-  IncomeList.value = IncomeList.value.filter(e => e.title != Income.title && e.value != Income.value);
+function deleteIncome(Income: { title: string; value: string }) {
+  incomeList.value = incomeList.value.filter(e => e.title != Income.title && e.value != Income.value);
 }
-function deleteExpense(Expense: LSItem) {
-  ExpenseList.value = ExpenseList.value.filter(e => e.title != Expense.title && e.value != Expense.value);
+function deleteExpense(Expense: { title: string; value: string }) {
+  expenseList.value = expenseList.value.filter(e => e.title != Expense.title && e.value != Expense.value);
 }
 function deletePayin(Payin: { date: string; value: string }) {
-  PayinList.value = PayinList.value.filter(e => e.date != Payin.date && e.value != Payin.value);
+  payinList.value = payinList.value.filter(e => e.date != Payin.date && e.value != Payin.value);
 }
 </script>
 <style scoped lang="scss">

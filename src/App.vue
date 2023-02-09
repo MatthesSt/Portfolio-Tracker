@@ -16,27 +16,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
 import MoneyIO from './components/MoneyIO.vue';
 import Dividends from './components/Dividends.vue';
 import Overview from './components/Overview.vue';
 import Saving from './components/Saving.vue';
 
 import { views, routeState } from './state';
-
-function getLastRoute() {
-  let lastRoute = localStorage.getItem('lastRoute');
-  if (!lastRoute) return views.value[0];
-  let [route, day, time] = lastRoute?.split(',');
-  if (day == new Date().toLocaleDateString()) {
-    let [currentHour, currentMinute] = new Date().toLocaleTimeString();
-    let hour = time.split(':')[0];
-    if (hour == currentHour || (+hour == +currentHour - 1 && +currentMinute > +currentMinute)) {
-      routeState.value = route.slice(1) as typeof views.value[number];
-    }
-  }
-}
-getLastRoute();
 </script>
 <style lang="scss">
 main {

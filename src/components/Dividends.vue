@@ -60,13 +60,12 @@
   </View>
 </template>
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { TextInput, Button, Accordion, DateInput } from 'custom-mbd-components';
 import View from './View.vue';
-import { getCurrentDateTime } from '../utils';
+import { stockList } from '../state';
 
 const newStockTitle = ref('');
-const stockList = ref<Stock[]>([]);
 const newDividendDate = ref('');
 const newDividendValue = ref('');
 
@@ -77,25 +76,6 @@ interface Stock {
   amount: string;
   dividends: { value: string; date: string }[];
 }
-
-watch(
-  () => stockList.value,
-  (newValue, oldValue) => {
-    localStorage.setItem('Stocks', JSON.stringify(newValue));
-    localStorage.setItem('lastUpdated', JSON.stringify(getCurrentDateTime()));
-  },
-  { deep: true }
-);
-
-function init() {
-  let storageStocks = localStorage.getItem('Stocks') || '';
-  try {
-    stockList.value = JSON.parse(storageStocks);
-  } catch (e) {
-    stockList.value = [];
-  }
-}
-init();
 
 function addStock() {
   let newStock: Stock = {

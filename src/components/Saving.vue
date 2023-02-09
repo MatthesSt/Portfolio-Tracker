@@ -36,31 +36,16 @@
   </View>
 </template>
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import View from './View.vue';
 import { TextInput, Button, SelectInput } from 'custom-mbd-components';
-import { getCurrentDateTime } from '../utils';
-
-type Saving = { title: string; value: string; rate: 'm' | 'q' | 'h' | 'y'; id: string };
+import { savingList } from '../state';
+import type { Saving } from '../state';
 
 const newSavingRate = ref<Saving['rate']>('m');
 const newSavingTitle = ref('');
 const newSavingValue = ref('');
-const savingList = ref<Saving[]>([]);
 
-watch(
-  () => savingList.value,
-  (newValue, oldValue) => {
-    localStorage.setItem('Saving', JSON.stringify(newValue));
-    localStorage.setItem('lastUpdated', JSON.stringify(getCurrentDateTime()));
-  },
-  { deep: true }
-);
-
-function init() {
-  savingList.value = JSON.parse(localStorage.getItem('Saving') || '[]');
-}
-init();
 function addSaving() {
   savingList.value.push({
     title: newSavingTitle.value,
