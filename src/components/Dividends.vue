@@ -1,15 +1,15 @@
 <template>
   <View title="Dividends">
-    <form class="Stgrid mx-3" @submit.prevent="addStock()">
-      <div>
+    <form class="row g-0 mx-3" @submit.prevent="addStock()">
+      <div class="col-10">
         <TextInput placeholder="titel" v-model="newStockTitle" required></TextInput>
       </div>
-      <div class="d-flex align-items-end">
+      <div class="d-flex align-items-end justify-content-end col-2">
         <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
       </div>
     </form>
 
-    <div class="m-3 mt-4" style="max-height: 60vh; overflow: auto">
+    <div class="m-3 mt-4" style="">
       <Accordion
         :items="
           stockList.map(e => ({
@@ -20,26 +20,26 @@
       >
         <template v-for="(stock, stockIndex) of stockList" #[stringWithoutSpecialCharacters(stock.title)]>
           <div>
-            <form class="Divgrid mx-3 mb-3" @submit.prevent="addDividend(stock.title)">
-              <div>
+            <form class="row g-2 mx-2 mb-3" @submit.prevent="addDividend(stock.title)">
+              <div class="col-4">
                 <TextInput placeholder="wert" v-model="newDividendValue" required></TextInput>
               </div>
-              <div>
+              <div class="col-6">
                 <DateInput placeholder="datum" v-model="newDividendDate" required></DateInput>
               </div>
-              <div class="d-flex align-items-end">
+              <div class="d-flex align-items-end col-2">
                 <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
               </div>
             </form>
-            <div class="mt-3 overflow-auto" style="max-height: 20vh">
-              <div class="Divgrid mx-3 mb-3" v-for="(dividend, dividendIndex) in stock.dividends">
-                <div>
+            <div class="overflow-auto" style="max-height: 20vh">
+              <div class="row g-2 mx-2 mb-3" v-for="(dividend, dividendIndex) in stock.dividends">
+                <div class="col-4">
                   <TextInput placeholder="wert" v-model="dividend.value">{{ dividend.value }}</TextInput>
                 </div>
-                <div>
+                <div class="col-6">
                   <TextInput placeholder="datum" v-model="dividend.date">{{ dividend.date }}</TextInput>
                 </div>
-                <div class="d-flex align-items-end">
+                <div class="d-flex align-items-end col-2">
                   <Button class="btn btn-danger" @click.stop="deleteDividend(stockIndex, dividendIndex)"><i class="fas fa-trash"></i></Button>
                 </div>
               </div>
@@ -105,15 +105,3 @@ function stringWithoutSpecialCharacters(string: string) {
   return string.replace(/[^a-zA-Z0-9-_]/g, '');
 }
 </script>
-<style scoped lang="scss">
-.Stgrid {
-  display: grid;
-  grid-template-columns: 8fr 1fr;
-  gap: 5px;
-}
-.Divgrid {
-  display: grid;
-  grid-template-columns: 3fr 5fr 1fr;
-  gap: 5px;
-}
-</style>

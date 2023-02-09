@@ -1,29 +1,29 @@
 <template>
   <View title="Sparen">
     <div>
-      <form class="Fgrid px-3" @submit.prevent="addSaving()">
-        <div>
+      <form class="row g-2 mx-2" @submit.prevent="addSaving()">
+        <div class="col-4">
           <TextInput placeholder="titel" v-model="newSavingTitle" required></TextInput>
         </div>
-        <div>
+        <div class="col-4">
           <TextInput placeholder="wert" v-model="newSavingValue" required></TextInput>
         </div>
-        <div class="text-dark">
+        <div class="text-dark col-2">
           <SelectInput controlInput showAll v-model="newSavingRate" placeholder="rate" :options="['m', 'q', 'h', 'y']"></SelectInput>
         </div>
-        <div class="d-flex align-items-end">
+        <div class="d-flex align-items-end col-2">
           <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
         </div>
       </form>
       <div class="my-3 overflow-auto" style="max-height: 40vh">
-        <div class="Sgrid px-3" v-for="saving of savingList">
-          <div>
+        <div class="row g-2 mx-2" v-for="saving of savingList">
+          <div class="col-5">
             <TextInput placeholder="titel" v-model="saving.title">{{ saving.title }}</TextInput>
           </div>
-          <div>
+          <div class="col-5">
             <TextInput placeholder="wert" v-model="saving.value">{{ saving.title }}</TextInput>
           </div>
-          <div class="d-flex align-items-end">
+          <div class="d-flex align-items-end col-2">
             <Button class="btn btn-danger" @click.stop="deleteSaving(saving)"><i class="fas fa-trash"></i></Button>
           </div>
         </div>
@@ -58,15 +58,3 @@ function deleteSaving(saving: Saving) {
   savingList.value = savingList.value.filter(e => e.id != saving.value);
 }
 </script>
-<style lang="scss">
-.Fgrid {
-  display: grid;
-  grid-template-columns: 4fr 4fr 2fr 1fr;
-  gap: 5px;
-}
-.Sgrid {
-  display: grid;
-  grid-template-columns: 5fr 5fr 1fr;
-  gap: 5px;
-}
-</style>

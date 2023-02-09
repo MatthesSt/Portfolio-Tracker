@@ -19,26 +19,26 @@
       >
         <template #Einkommen>
           <div id="incomeContainer" class="mb-3">
-            <form class="IEgrid pb-2" @submit.prevent="addIncome()" style="border-bottom: 1px solid black">
-              <div>
+            <form class="row g-2 mx-2 pb-2" @submit.prevent="addIncome()" style="border-bottom: 1px solid black">
+              <div class="col-5">
                 <TextInput placeholder="titel" v-model="newIncomeTitle" required></TextInput>
               </div>
-              <div>
+              <div class="col-5">
                 <TextInput placeholder="wert" v-model="newIncomeValue" required></TextInput>
               </div>
-              <div class="d-flex align-items-end">
+              <div class="d-flex align-items-end col-2">
                 <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
               </div>
             </form>
             <div class="mt-3 overflow-auto" style="max-height: 40vh">
-              <div class="IEgrid" v-for="Income of incomeList">
-                <div>
+              <div class="row g-2 mx-2" v-for="Income of incomeList">
+                <div class="col-5">
                   <TextInput placeholder="titel" v-model="Income.title">{{ Income.title }}</TextInput>
                 </div>
-                <div>
+                <div class="col-5">
                   <TextInput placeholder="wert" v-model="Income.value">{{ Income.title }}</TextInput>
                 </div>
-                <div class="d-flex align-items-end">
+                <div class="d-flex align-items-end col-2">
                   <Button class="btn btn-danger" @click.stop="deleteIncome(Income)"><i class="fas fa-trash"></i></Button>
                 </div>
               </div>
@@ -47,63 +47,62 @@
         </template>
         <template #Ausgaben>
           <div id="expenseContainer" class="mb-3">
-            <form class="IEgrid pb-2" @submit.prevent="addExpense()" style="border-bottom: 1px solid black">
-              <div>
+            <form class="row g-2 mx-2 pb-2" @submit.prevent="addExpense()" style="border-bottom: 1px solid black">
+              <div class="col-5">
                 <TextInput placeholder="titel" v-model="newExpenseTitle" required></TextInput>
               </div>
-              <div>
+              <div class="col-5">
                 <TextInput placeholder="wert" v-model="newExpenseValue" required></TextInput>
               </div>
-              <div class="d-flex align-items-end">
+              <div class="d-flex align-items-end col-2">
                 <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
               </div>
             </form>
             <div class="mt-3 overflow-auto" style="max-height: 40vh">
-              <div class="IEgrid" v-for="Expense of expenseList">
-                <div>
+              <div class="row g-2 mx-2" v-for="Expense of expenseList">
+                <div class="col-5">
                   <TextInput placeholder="titel" v-model="Expense.title">{{ Expense.title }}</TextInput>
                 </div>
-                <div>
+                <div class="col-5">
                   <TextInput placeholder="wert" v-model="Expense.value">{{ Expense.title }}</TextInput>
                 </div>
-                <div class="d-flex align-items-end">
+                <div class="d-flex align-items-end col-2">
                   <Button class="btn btn-danger" @click.stop="deleteExpense(Expense)"><i class="fas fa-trash"></i></Button>
                 </div>
               </div>
               <div class="mx-3 py-2" style="border-bottom: 1px solid black">Sparen</div>
-              <div class="IEgrid" v-for="saving of savingList">
-                <div>
+              <div class="row g-2 mx-2" v-for="saving of savingList">
+                <div class="col-5">
                   <TextInput placeholder="titel" v-model="saving.title" disabled>{{ saving.title }}</TextInput>
                 </div>
-                <div>
+                <div class="col-5">
                   <TextInput placeholder="wert" v-model="saving.value" disabled>{{ saving.value }}</TextInput>
                 </div>
-                <div style="width: 42px"></div>
               </div>
             </div>
           </div>
         </template>
         <template #Einzahlungen>
-          <form class="IEgrid pb-2" @submit.prevent="addPayin()" style="border-bottom: 1px solid black">
-            <div>
+          <form class="row g-2 mx-2 pb-2" @submit.prevent="addPayin()" style="border-bottom: 1px solid black">
+            <div class="col-5">
               <DateInput placeholder="datum" v-model="newPayinDate" required></DateInput>
             </div>
-            <div>
+            <div class="col-5">
               <TextInput placeholder="wert" v-model="newPayinValue" required></TextInput>
             </div>
-            <div class="d-flex align-items-end">
+            <div class="d-flex align-items-end col-2">
               <Button class="btn btn-success"><i class="fas fa-save"></i></Button>
             </div>
           </form>
           <div class="mt-3 overflow-auto py-2" style="max-height: 40vh">
-            <div class="IEgrid" v-for="Payin of payinList">
-              <div>
+            <div class="row g-2 mx-2" v-for="Payin of payinList">
+              <div class="col-5">
                 <DateInput placeholder="datum" v-model="Payin.date">{{ Payin.date }}</DateInput>
               </div>
-              <div>
+              <div class="col-5">
                 <TextInput placeholder="wert" v-model="Payin.value">{{ Payin.value }}</TextInput>
               </div>
-              <div class="d-flex align-items-end">
+              <div class="d-flex align-items-end col-2">
                 <Button class="btn btn-danger" @click.stop="deletePayin(Payin)"><i class="fas fa-trash"></i></Button>
               </div>
             </div>
@@ -174,11 +173,3 @@ function deletePayin(Payin: { date: string; value: string }) {
   payinList.value = payinList.value.filter(e => e.date != Payin.date && e.value != Payin.value);
 }
 </script>
-<style scoped lang="scss">
-.IEgrid {
-  display: grid;
-  grid-template-columns: 5fr 5fr 1fr;
-  gap: 5px;
-  padding-inline: 10px;
-}
-</style>
