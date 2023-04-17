@@ -1,57 +1,64 @@
 <template>
   <View title="Overview">
-    <div class="p-3 grid">
-      <div class="p-3 row g-2 mx-2">
-        <!-- <div class="col-8">Zuletzt Aktualisiert:</div>
-        <div class="col-4">{{ lastUpdated }}</div> -->
-        <div class="col-8">Gesamte Dividende:</div>
-        <div class="col-4">{{ totalDividend.toFixed(2) }}€</div>
-        <div class="col-8">Dividende Letzen Monat:</div>
-        <div class="col-4">{{ lastMonthDividend.toFixed(2) }}€</div>
-        <div class="col-8">Sparrate:</div>
-        <div class="col-4">{{ totalSaving }}€/m</div>
-        <div class="col-8">Durchscnittliche Dividende:</div>
-        <div class="col-4">{{ (totalDividend / dividendMonths).toFixed(2) }}€/m</div>
-      </div>
-      <div class="px-3">Dividendenwachstum pro Monat:</div>
-      <div class="px-3 py-2 overflow-auto" style="max-height: 60vh">
-        <div class="row g-2 mx-2 pb-2">
-          <div class="col-6">Monat</div>
-          <div class="col-3">Dividende</div>
-          <div class="col-3">Wachstum</div>
-        </div>
-        <div class="row mx-2" v-for="(entry,index) in (monthGrowthList as [string,number][]) ">
-          <div class="col-6 customBorder" v-if="index && !((+entry[0].substring(4) - 1) % 3)">
-            Q{{ Math.floor((+entry[0].substring(4) - 1) / 3) || 4 }} {{ +entry[0].substring(0, 4) }}
-          </div>
-          <div class="col-3 customBorder" v-if="index && !((+entry[0].substring(4) - 1) % 3)">
-            {{ getHalfYearDividendBracket(index).toFixed(2) }}
-          </div>
-          <div class="col-3 customBorder" v-if="index && !((+entry[0].substring(4) - 1) % 3)">
-            {{
-              (
-                Math.round(
-                  (getHalfYearDividendBracket(index) / (getHalfYearDividendBracket(index - 3) || getHalfYearDividendBracket(index)) - 1) * 10000
-                ) / 100
-              ).toFixed(2)
-            }}%
-          </div>
-          <div class="row col-12" v-if="+entry[0].substring(0, 4) == currentYear">
-            <div class="col-6">
-              {{ new Date(+entry[0].substring(0, 4), +entry[0].substring(4) - 1, 1).toLocaleString('default', { year: '2-digit', month: 'short' }) }}:
-            </div>
-            <div class="col-3">{{ monthDividendList[index][1].reduce((a, b) => a + b, 0).toFixed(2) }}</div>
-            <div class="col-3" v-if="index">{{ Math.round(+entry[1] * 10000) / 100 || 0 }}%</div>
-          </div>
-        </div>
-      </div>
+    <div class="p-3">
+      <table class="w-100">
+        <tr class="border-bottom">
+          <td>Gesamte Dividende</td>
+          <td>{{ totalDividend.toFixed(2) }}€</td>
+        </tr>
+        <tr class="border-bottom">
+          <td>Dividende Letzen Monat</td>
+          <td>{{ lastMonthDividend.toFixed(2) }}€</td>
+        </tr>
+        <tr class="border-bottom">
+          <td>Sparrate</td>
+          <td>{{ totalSaving }}€/m</td>
+        </tr>
+        <tr class="border-bottom">
+          <td>Durchscnittliche Dividende</td>
+          <td>{{ (totalDividend / dividendMonths).toFixed(2) }}€/m</td>
+        </tr>
+      </table>
+      <table class="mt-5" style="width: 100%; max-height: 60vh; overflow: auto">
+        <thead>
+          <tr>
+            <td>Monat</td>
+            <td>Dividende</td>
+            <td>Wachstum</td>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-for="(entry,index) in (monthGrowthList as [string,number][])">
+            <tr class="customBorder" v-if="index && !((+entry[0].substring(4) - 1) % 3)">
+              <td>Q{{ Math.floor((+entry[0].substring(4) - 1) / 3) || 4 }} {{ +entry[0].substring(0, 4) }}</td>
+              <td>{{ getQuarterDividends(index).toFixed(2) }}</td>
+              <td>
+                {{
+                  (
+                    Math.round((getQuarterDividends(index) / (getQuarterDividends(index - 3) || getQuarterDividends(index)) - 1) * 10000) / 100
+                  ).toFixed(2)
+                }}%
+              </td>
+            </tr>
+            <tr v-if="+entry[0].substring(0, 4) == currentYear">
+              <td>
+                {{
+                  new Date(+entry[0].substring(0, 4), +entry[0].substring(4) - 1, 1).toLocaleString('default', { year: '2-digit', month: 'short' })
+                }}
+              </td>
+              <td>{{ monthDividendList[index][1].reduce((a, b) => a + b, 0).toFixed(2) }}</td>
+              <td v-if="index !== 0">{{ Math.round(+entry[1] * 10000) / 100 || 0 }}%</td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
     </div>
   </View>
 </template>
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import View from './View.vue';
-import { savingList, stockList, lastUpdated } from '../state';
+import { savingList, stockList } from '../state';
 
 interface Stock {
   title: string;
@@ -87,7 +94,7 @@ const lastMonthDividend = computed(() =>
     .reduce((a, b) => a + +b.value, 0)
 );
 
-function getHalfYearDividendBracket(index: number) {
+function getQuarterDividends(index: number) {
   return monthDividendList.value.reduce((a, b, i) => a + (i < index && i >= index - 3 ? +b[1].reduce((a, b) => a + +b)! : 0), 0);
 }
 
