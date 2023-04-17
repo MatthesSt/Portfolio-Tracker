@@ -9,6 +9,8 @@
       <div>{{ lastMonthDividend.toFixed(2) }}€</div>
       <div>Sparrate:</div>
       <div>{{ totalSaving }}€/m</div>
+      <div>Durchscnittliche Dividende:</div>
+      <div>{{ totalDividend / dividendMonths }}€/m</div>
     </div>
     <div class="px-3">Dividendenwachstum pro Monat:</div>
     <div class="px-3 py-2 overflow-auto" style="max-height: 60vh">
@@ -33,11 +35,13 @@
             ).toFixed(2)
           }}%
         </div>
-        <div>
-          {{ new Date(+entry[0].substring(0, 4), +entry[0].substring(4) - 1, 1).toLocaleString('default', { year: '2-digit', month: 'short' }) }}:
+        <div v-if="+entry[0].substring(0, 4) == currentYear">
+          <div>
+            {{ new Date(+entry[0].substring(0, 4), +entry[0].substring(4) - 1, 1).toLocaleString('default', { year: '2-digit', month: 'short' }) }}:
+          </div>
+          <div>{{ monthDividendList[index][1].reduce((a, b) => a + b, 0).toFixed(2) }}</div>
+          <div v-if="index">{{ Math.round(+entry[1] * 10000) / 100 || 0 }}%</div>
         </div>
-        <div>{{ monthDividendList[index][1].reduce((a, b) => a + b, 0).toFixed(2) }}</div>
-        <div v-if="index">{{ Math.round(+entry[1] * 10000) / 100 || 0 }}%</div>
       </div>
     </div>
   </View>
@@ -55,6 +59,22 @@ interface Stock {
 
 const monthGrowthList = ref<(string | number | null)[][]>([]);
 const lastUpdated = ref('');
+
+const currentYear = +(new Date() + '').substring(11, 15);
+
+const dividendMonths = computed(() => {
+  let firstEntry = stockList.value.flatMap(e => e.dividends).sort((a, b) => (a.date > b.date ? 1 : -1))[0];
+  let lastEntry = stockList.value
+    .flatMap(e => e.dividends)
+    .sort((a, b) => (a.date > b.date ? 1 : -1))
+    .at(-1);
+  return (
+    (+lastEntry!.date.substring(0, 4) - +firstEntry!.date.substring(0, 4)) * 12 +
+    1 +
+    +lastEntry!.date.substring(5, 7) -
+    +firstEntry!.date.substring(5, 7)
+  );
+});
 
 const monthDividendList = computed(() => Object.entries(getMonthObject(stockList.value.flatMap(e => e.dividends))));
 const totalSaving = computed(() => savingList.value.reduce((a, b) => a + +b.value, 0));
