@@ -20,7 +20,7 @@
           <div class="col-3">Dividende</div>
           <div class="col-3">Wachstum</div>
         </div>
-        <div class="row g-2 mx-2" v-for="(entry,index) in (monthGrowthList as [string,number][]) ">
+        <div class="row mx-2" v-for="(entry,index) in (monthGrowthList as [string,number][]) ">
           <div class="col-6 customBorder" v-if="index && !((+entry[0].substring(4) - 1) % 3)">
             Q{{ Math.floor((+entry[0].substring(4) - 1) / 3) || 4 }} {{ +entry[0].substring(0, 4) }}
           </div>
