@@ -3,6 +3,10 @@
     <div class="p-3">
       <table class="w-100">
         <tr class="border-bottom">
+         <td>Stand</td>
+          <td>{{ lastUpdate }}</td>
+        </tr>
+        <tr class="border-bottom">
           <td>Gesamte Dividende</td>
           <td>{{ totalDividend.toFixed(2) }}€</td>
         </tr>
@@ -52,6 +56,7 @@ import { computed, ref } from 'vue';
 import View from '../components/View.vue';
 import { stockList } from '../state';
 import { reduceSum } from '../utils';
+import { lastUpdate } from '../state';
 
 interface Stock {
   title: string;

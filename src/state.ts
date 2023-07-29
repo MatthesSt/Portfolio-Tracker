@@ -13,6 +13,8 @@ export const expenseList = ref<{ title: string; value: string }[]>([]);
 export const incomeList = ref<{ title: string; value: string }[]>([]);
 export const routeState = ref<typeof views.value[number]>('I/O');
 
+export const lastUpdate = ref('');
+
 function setItem(key: string, value: any) {
   localStorage.setItem(key, JSON.stringify(value));
 }
@@ -20,6 +22,9 @@ watch(
   stockList,
   (newValue, oldValue) => {
     setItem('Stocks', newValue);
+    if(JSON.stringify(newValue) !== JSON.stringify(oldValue)){
+      lastUpdate.value = new Date().toLocaleDateString();
+    }
   },
   { deep: true }
 );
