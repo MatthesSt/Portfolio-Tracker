@@ -7,11 +7,11 @@
           <td>{{ lastUpdate }}</td>
         </tr>
         <tr class="border-bottom">
-          <td>Gesamte Dividende</td>
+          <td>Gesamt Dividende</td>
           <td>{{ totalDividend.toFixed(2) }}€</td>
         </tr>
         <tr class="border-bottom">
-          <td>Durchschnittliche Dividende pro Monat</td>
+          <td>Avg. Dividende pro Monat</td>
           <td>{{ (totalDividend / dividendMonths).toFixed(2) }}€</td>
         </tr>
       </table>
@@ -26,7 +26,7 @@
         <tbody>
           <template v-for="(entry,index) in (monthGrowthList as [string,number][])">
             <tr class="customBorder" v-if="index && !((+entry[0].substring(4) - 1) % 3)">
-              <td>Q{{ Math.floor((+entry[0].substring(4) - 1) / 3) || 4 }} {{ +entry[0].substring(0, 4) }}</td>
+              <td>Q{{ Math.floor((+entry[0].substring(4) -1 ) / 3)||4 }} {{ +entry[0].substring(0, 4) - +(entry[0].substring(4,6)==="01")  }}</td>
               <td>{{ getQuarterDividends(index).toFixed(2) }}</td>
               <td>
                 {{
