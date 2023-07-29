@@ -13,7 +13,7 @@
       <Accordion
         :items="
           stockList.map(e => ({
-            title: `${e.title} (${e.dividends.reduce(listReducer, 0).toFixed(2)})`,
+            title: `${e.title} (${reduceSum(e.dividends).toFixed(2)})`,
             hash: stringWithoutSpecialCharacters(e.title),
           }))
         "
@@ -48,28 +48,18 @@
         </template>
       </Accordion>
     </div>
-    <div class="px-4 h2">
-      Gesamt:
-      {{
-        stockList
-          .flatMap(e => e.dividends)
-          .reduce(listReducer, 0)
-          .toFixed(2)
-      }}
-    </div>
   </View>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { TextInput, Button, Accordion, DateInput } from 'custom-mbd-components';
-import View from './View.vue';
+import View from '../components/View.vue';
 import { stockList } from '../state';
+import { reduceSum } from '../utils';
 
 const newStockTitle = ref('');
 const newDividendDate = ref('');
 const newDividendValue = ref('');
-
-const listReducer = (a: number, b: Stock['dividends'][number]) => a + +b.value.replace(',', '.');
 
 interface Stock {
   title: string;

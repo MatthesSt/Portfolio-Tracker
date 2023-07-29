@@ -4,8 +4,5 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
-
-const props = defineProps<{ title: string }>();
-const { title } = toRefs(props);
+defineProps<{ title: string }>();
 </script>

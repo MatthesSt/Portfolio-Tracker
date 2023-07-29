@@ -1,11 +1,11 @@
 <template>
   <main class="bg-dark text-light">
     <section v-if="routeState == 'I/O'">
-      <MoneyIO></MoneyIO>
+      <MoneyIO/>
     </section>
-    <section v-if="routeState == 'Dividends'"><Dividends></Dividends></section>
-    <section v-if="routeState == 'Overview'"><Overview></Overview></section>
-    <section v-if="routeState == 'Saving'"><Saving></Saving></section>
+    <section v-if="routeState == 'Dividends'"><Dividends/></section>
+    <section v-if="routeState == 'Overview'"><Overview/></section>
+    <section v-if="routeState == 'Import/Export'"><ImportExport/></section>
   </main>
   <footer class="row g-0 w-100">
     <div v-for="section of views" class="col text-center bg-success text-light border border-sm border-dark">
@@ -15,10 +15,10 @@
 </template>
 
 <script setup lang="ts">
-import MoneyIO from './components/MoneyIO.vue';
-import Dividends from './components/Dividends.vue';
-import Overview from './components/Overview.vue';
-import Saving from './components/Saving.vue';
+import MoneyIO from './views/MoneyIO.vue';
+import Dividends from './views/Dividends.vue';
+import Overview from './views/Overview.vue';
+import ImportExport from './views/ImportExport.vue';
 
 import { views, routeState } from './state';
 </script>
