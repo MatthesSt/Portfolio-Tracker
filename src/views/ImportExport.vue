@@ -17,6 +17,9 @@ function exportData(){
 function importData(){
     navigator.clipboard.readText().then(text => {
         let data = JSON.parse(text);
+        if(!data.stockList || !data.incomeList || !data.expenseList){
+            return alert('Invalid data');
+        }
         stockList.value = data.stockList;
         incomeList.value = data.incomeList;
         expenseList.value = data.expenseList;
