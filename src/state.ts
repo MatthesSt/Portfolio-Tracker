@@ -1,6 +1,6 @@
 import { ref, watch } from 'vue';
 
-interface Stock {
+export interface Stock {
   title: string;
   amount: string;
   dividends: { value: string; date: string }[];
@@ -22,9 +22,6 @@ watch(
   stockList,
   (newValue, oldValue) => {
     setItem('Stocks', newValue);
-    if(JSON.stringify(newValue) !== JSON.stringify(oldValue)){
-      lastUpdate.value = new Date().toLocaleDateString();
-    }
   },
   { deep: true }
 );
@@ -42,9 +39,16 @@ watch(
   },
   { deep: true }
 );
+watch(
+  lastUpdate,
+  (newValue, oldValue) => {
+    setItem('lastUpdate', newValue);
+  }
+);
 
 (()=>{
   incomeList.value = JSON.parse(localStorage.getItem('Income') || '[]');
   expenseList.value = JSON.parse(localStorage.getItem('Expense') || '[]');
   stockList.value = JSON.parse(localStorage.getItem('Stocks') || '[]');
+  lastUpdate.value = JSON.parse(localStorage.getItem('lastUpdate') || '');
 })()

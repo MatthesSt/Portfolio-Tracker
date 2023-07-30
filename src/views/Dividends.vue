@@ -54,18 +54,12 @@
 import { ref } from 'vue';
 import { TextInput, Button, Accordion, DateInput } from 'custom-mbd-components';
 import View from '../components/View.vue';
-import { stockList } from '../state';
+import { stockList, lastUpdate, Stock } from '../state';
 import { reduceSum } from '../utils';
 
 const newStockTitle = ref('');
 const newDividendDate = ref('');
 const newDividendValue = ref('');
-
-interface Stock {
-  title: string;
-  amount: string;
-  dividends: { value: string; date: string }[];
-}
 
 function addStock() {
   let newStock: Stock = {
@@ -86,6 +80,7 @@ function addDividend(stockTitle: string) {
     });
   newDividendValue.value = '';
   newDividendDate.value = '';
+  lastUpdate.value = new Date().toLocaleDateString();
 }
 function deleteDividend(stockIndex: number, dividendIndex: number) {
   stockList.value[stockIndex].dividends = stockList.value[stockIndex].dividends.filter((e, i) => i != dividendIndex);
