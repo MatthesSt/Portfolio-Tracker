@@ -6,12 +6,12 @@ export interface Stock {
   dividends: { value: string; date: string }[];
 }
 
-export const views = ref(['I/O', 'Dividends','Overview','Import/Export'] as const);
+export const views = ref(['I/O', 'Dividends', 'Overview', 'Import/Export'] as const);
 
 export const stockList = ref<Stock[]>([]);
 export const expenseList = ref<{ title: string; value: string }[]>([]);
 export const incomeList = ref<{ title: string; value: string }[]>([]);
-export const routeState = ref<typeof views.value[number]>('I/O');
+export const routeState = ref<(typeof views.value)[number]>('I/O');
 
 export const lastUpdate = ref('');
 
@@ -39,16 +39,13 @@ watch(
   },
   { deep: true }
 );
-watch(
-  lastUpdate,
-  (newValue, oldValue) => {
-    setItem('lastUpdate', newValue);
-  }
-);
+watch(lastUpdate, (newValue, oldValue) => {
+  setItem('lastUpdate', newValue);
+});
 
-(()=>{
+(() => {
   incomeList.value = JSON.parse(localStorage.getItem('Income') || '[]');
   expenseList.value = JSON.parse(localStorage.getItem('Expense') || '[]');
   stockList.value = JSON.parse(localStorage.getItem('Stocks') || '[]');
-  lastUpdate.value = JSON.parse(localStorage.getItem('lastUpdate') || '');
-})()
+  lastUpdate.value = JSON.parse(localStorage.getItem('lastUpdate') || '""');
+})();
